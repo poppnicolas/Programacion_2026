@@ -1,0 +1,151 @@
+* {
+    box-sizing: border-box;
+}
+
+body{
+    font-family: Arial, Helvetica, sans-serif;
+    background:#f4f4f4;
+    margin: 0;
+}
+
+nav{
+    display:flex;
+    flex-direction:column;
+    width: 100%;
+    color:#ffffff;
+    background:#000000;
+}
+.navArriba{
+    width: 100%;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:5px 40px;
+    font-size:12px;
+    gap: 10px;
+}
+
+.ArribaR {
+    display: flex;
+    justify-content: space-around;
+    gap:20px;
+}
+
+.navAbajo{
+    display:flex;
+    justify-content: space-between;
+    align-items:center;
+    padding: 5px 40px;
+    overflow: visible;
+}
+
+.logoNav {
+    width: 50px;
+    position: relative;
+    top: 25px;
+    padding: 5px;
+    background-color: #000000;
+    border-radius: 20%;
+}
+
+.menu{
+    font-size:22px;
+}
+
+
+nav h1 {
+    font-size: 15px;
+}
+nav h2 {
+    font-size: 12px;
+}
+
+.titulo{
+    display:flex;
+    align-items:center;
+    gap:20px;
+    padding:30px 40px 0px 40px;
+}
+
+.titulo h1{
+    font-size: 25px;
+}
+
+.grilla{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:30px;
+    padding:30px 40px;
+}
+
+.tarjeta{
+    position:relative;
+    border-radius:4px;
+    overflow:hidden;
+    box-shadow:0 3px 6px rgba(0,0,0,0.2);
+}
+
+.tarjeta h2{
+    padding:60px 20px 30px 20px;
+    font-size:32px;
+    margin:0;
+}
+
+.bandera{
+    width:32px;
+    position:absolute;
+    top:15px;
+    left:15px;
+}
+
+.info{
+    background:#ffffff;
+    padding:15px 20px;
+    font-size:14px;
+}
+
+.info div{
+    display:flex;
+    justify-content:space-between;
+    margin:6px 0;
+    color: #929292;
+}
+
+.info span {
+    color: #1f1f1f;
+}
+
+.alemania{
+    background:#1f1f1f;
+    color:white;
+}
+
+.arabia{
+    background:#27a550;
+}
+
+.argelia{
+    background:#00a067;
+}
+
+.argentina{
+    background:#9cc9f2;
+}
+
+.australia{
+    background:#efb500;
+}
+
+.austria{
+    background: #ed3d32;
+    color: white;
+}
+
+.brasil{
+    background:#ffcf25;
+}
+
+.belgica{
+    background:#880029;
+    color:white;
+}
