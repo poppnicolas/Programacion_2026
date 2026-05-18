@@ -68,3 +68,53 @@ botonFetch2.addEventListener('click', filtrar);
 
 
 // Ejercicio 4
+
+const botonFetch3 = document.getElementById("botonFetch3");
+const contenedorLista3 = document.getElementById("contenedorLista3");
+
+function ej4() {
+    fetch("https://jsonplaceholder.typicode.com/users")
+        .then(response => response.json())
+        .then(usuarios => {
+            const ul = document.createElement("ul");
+            const usuarioBuscado = usuarios.find(usuario => usuario.id === 1);
+
+            const li = document.createElement("li");
+            li.textContent = usuarioBuscado.name;
+
+            const li2 = document.createElement("li");
+            li2.textContent = usuarioBuscado.phone;
+
+            const li3 = document.createElement("li");
+            li3.textContent = usuarioBuscado.email;
+
+            const li4 = document.createElement("li");
+            li4.textContent = usuarioBuscado.address.city;
+
+            ul.appendChild(li)
+            ul.appendChild(li2)
+            ul.appendChild(li3)
+            ul.appendChild(li4)
+            contenedorLista3.appendChild(ul);
+        })
+}
+
+botonFetch3.addEventListener('click', ej4);
+
+//ejercicio 5 
+
+
+const botonFetch4 = document.getElementById("botonFetch4");
+
+function ej4() {
+
+    fetch("https://jsonplaceholder.typicode.com/users", {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name: "Lucas Schroeder", email: "lschroeder@obralapiedad.com.ar" })
+    })
+        .then((response) => response.json())
+        .then((json) => console.log(json));
+}
+
+botonFetch4.addEventListener('click', ej4);
