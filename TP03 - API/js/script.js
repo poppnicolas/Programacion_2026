@@ -106,7 +106,7 @@ botonFetch3.addEventListener('click', ej4);
 
 const botonFetch4 = document.getElementById("botonFetch4");
 
-function ej4() {
+function ej5() {
 
     fetch("https://jsonplaceholder.typicode.com/users", {
         method: 'POST',
@@ -117,4 +117,4 @@ function ej4() {
         .then((json) => console.log(json));
 }
 
-botonFetch4.addEventListener('click', ej4);
+botonFetch4.addEventListener('click', ej5);
