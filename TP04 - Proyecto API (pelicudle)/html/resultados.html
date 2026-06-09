@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resultados - Pelicudle</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/styles.css">
+
+</head>
+
+<body>
+    <div class="contenedor-resultados">
+        <h1>¡FIN DEL JUEGO!</h1>
+        <div class="puntuacion" id="puntuacion">0/5</div>
+        <div class="mensaje" id="mensaje"></div>
+        <img id="imagenResultado" src="../img/inicial.svg" alt="Resultado" width="320" height="320">
+        <button onclick="location.href='./juego.html'">JUGAR DE NUEVO</button>
+    </div>
+
+    <script>
+        const params = new URLSearchParams(window.location.search);
+        const aciertos = parseInt(params.get('aciertos')) || 0;
+
+        document.getElementById('puntuacion').textContent = `${aciertos}/5`;
+
+        // Configurar mensaje e imagen según aciertos
+        let mensaje = '';
+        let imagen = '';
+
+        if (aciertos === 5) {
+            mensaje = '¡PERFECTO! ¡Eres un cinéfilo de verdad! 🎬✨';
+            imagen = '../img/perfecto.svg';
+        } else if (aciertos === 3) {
+            mensaje = '¡BIEN HECHO! Has adivinado 3 películas. ¡Buen conocimiento! 🎥';
+            imagen = '../img/bien.svg';
+        } else if (aciertos >= 1) {
+            mensaje = `Solo adivinaste ${aciertos}. ¡Sigue practicando! 🍿`;
+            imagen = '../img/inicial.svg';
+        } else {
+            mensaje = 'Sin aciertos esta vez. ¡Vuelve a intentar! 🎞️';
+            imagen = '../img/inicial.svg';
+        }
+
+        document.getElementById('mensaje').textContent = mensaje;
+        const imagenElemento = document.getElementById('imagenResultado');
+        imagenElemento.src = imagen;
+        imagenElemento.style.display = 'block';
+        imagenElemento.onerror = function() {
+            this.style.display = 'none';
+            this.alt = 'Imagen no disponible';
+        };
+    </script>
+</body>
+
+</html>

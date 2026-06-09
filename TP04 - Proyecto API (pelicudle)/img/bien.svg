@@ -1,0 +1,32 @@
+<svg viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
+  <!-- Fondo degradado azul -->
+  <defs>
+    <linearGradient id="grad2" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#87CEEB;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#4169E1;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  <rect width="400" height="400" fill="url(#grad2)"/>
+  
+  <!-- Pulgar hacia arriba -->
+  <g transform="translate(200, 150)">
+    <!-- Puño -->
+    <rect x="-35" y="0" width="70" height="70" rx="10" fill="#FFB6C1" stroke="#FF1493" stroke-width="2"/>
+    
+    <!-- Dedo pulgar -->
+    <rect x="20" y="-80" width="30" height="100" rx="15" fill="#FFB6C1" stroke="#FF1493" stroke-width="2"/>
+    
+    <!-- Uñas -->
+    <circle cx="35" cy="-80" r="8" fill="#FFD700"/>
+  </g>
+  
+  <!-- Estrellas medianas -->
+  <polygon points="80,80 90,110 120,110 95,135 105,165 80,140 55,165 65,135 40,110 70,110" fill="#FFD700" stroke="#FF6B6B" stroke-width="2"/>
+  <polygon points="320,100 330,130 360,130 335,155 345,185 320,160 295,185 305,155 280,130 310,130" fill="#FFD700" stroke="#FF6B6B" stroke-width="2"/>
+  <polygon points="100,300 110,330 140,330 115,355 125,385 100,360 75,385 85,355 60,330 90,330" fill="#FFD700" stroke="#FF6B6B" stroke-width="2"/>
+  
+  <!-- Puntos decorativos -->
+  <circle cx="60" cy="200" r="5" fill="#FF1493" opacity="0.7"/>
+  <circle cx="340" cy="220" r="5" fill="#FF1493" opacity="0.7"/>
+  <circle cx="200" cy="350" r="5" fill="#FF1493" opacity="0.7"/>
+</svg>
