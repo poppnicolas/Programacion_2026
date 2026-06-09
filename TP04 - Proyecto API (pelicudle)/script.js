@@ -233,7 +233,7 @@ function cargarPeliculaAleatoria() {
 }
 
 function renderizarIntentos() {
-    contenedorIntentos.innerHTML = `<div style="color: #fff; font-size: 1.2em; margin-bottom: 10px; font-weight: bold;">Pel�cula ${peliculaActual}/${totalPeliculas}</div>`;
+    
     for (let i = 0; i < intentosMaximos; i++) {
         const cuadro = document.createElement("div");
         cuadro.classList.add("caja-intento");
