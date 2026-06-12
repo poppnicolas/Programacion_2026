@@ -4,19 +4,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pelicudle</title>
+    <title>Pelicudle - Nivel 3</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../css/styles.css">
 </head>
 
-<body class="body-juego">
+<body class="body-juego" data-nivel="3">
     <section class="juego">
-        <div id="portada">
-        </div>
+        <div id="portada"></div>
         <div class="derecha">
-            <h2>Película <span id="numero-pelicula">1</span>/5</h2> <div id="intentos" aria-label="Intentos restantes" class="intentos"></div>
+            <h2>Nivel 3 - Película <span id="numero-pelicula">1</span>/5</h2>
+            <div id="intentos" aria-label="Intentos restantes" class="intentos"></div>
             <div id="busqueda" class="busqueda">
                 <div class="busqueda-inputs">
                     <input id="entrada-busqueda" type="text" placeholder="Nombre de la película">
@@ -37,8 +37,6 @@
                 </tr>
             </table>
         </div>
-
-
     </section>
 
     <script src="../script.js"></script>
