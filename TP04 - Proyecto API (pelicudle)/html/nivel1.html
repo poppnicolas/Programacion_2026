@@ -7,15 +7,22 @@
     <title>Pelicudle - Nivel 1</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap"
+        rel="stylesheet">
     <link rel="stylesheet" href="../css/styles.css">
 </head>
 
 <body class="body-juego" data-nivel="1">
     <section class="juego">
-        <div id="portada"></div>
+        <div class="izquierda">
+            <div class="infoNivel">
+                <h2>Nivel 1</h2>
+                <h2><span id="numero-pelicula">1</span>/5</h2>
+            </div>
+            <div id="portada"></div>
+        </div>
         <div class="derecha">
-            <h2>Nivel 1 - Película <span id="numero-pelicula">1</span>/5</h2>
             <div id="intentos" aria-label="Intentos restantes" class="intentos"></div>
             <div id="busqueda" class="busqueda">
                 <div class="busqueda-inputs">

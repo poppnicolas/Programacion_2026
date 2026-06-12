@@ -20,11 +20,11 @@ const contenedorDatosPistas = document.getElementById("datos-pistas");
 const tablaIntentos = document.querySelector(".tabla-intentos");
 
 const niveles = {
-    nivel1: [265195, 155, 603, 157336, 597],
-    nivel2: [238, 1083381, 680, 13, 936075],
-    nivel3: [19404, 27205, 185, 550, 597],
-    nivel4: [157336, 550, 238, 424, 603],
-    nivel5: [680, 13, 19404, 27205, 155],
+    nivel1: [265195, 155, 550, 597, 238],
+    nivel2: [680, 13, 278, 603, 424],
+    nivel3: [1083381, 27205, 207, 557, 9806],
+    nivel4: [157336, 18079, 25376, 4232, 335984],
+    nivel5: [672, 936075, 19404, 9339, 1273221],
 };
 
 let nivelActual = 1;
@@ -57,9 +57,9 @@ function obtenerNivelActualDesdePagina() {
 }
 
 function actualizarNumeroPelicula() {
-    const encabezado = document.querySelector(".derecha h2");
+    const encabezado = document.querySelector("#numero-pelicula");
     if (encabezado) {
-        encabezado.innerHTML = `Nivel ${nivelActual} - Película <span id="numero-pelicula">${peliculaActual}</span>/5`;
+        encabezado.innerHTML = `${peliculaActual}`;
     }
 }
 
@@ -99,16 +99,22 @@ function obtenerDetallesPelicula(tmdbID) {
 }
 
 function esDatosPeliculaValidos(datos) {
-    if (!datos || !datos.Title || !datos.Genre || !datos.Director) {
+    if (!datos || !datos.Title) {
         return false;
     }
 
-    const year = datos.Year ? parseInt(datos.Year, 10) : NaN;
-    const rating = datos.imdbRating ? parseFloat(datos.imdbRating) : NaN;
-    const cumpleRating = !Number.isNaN(rating) && rating >= 7.5;
-    const cumpleYear = rating >= 8.5 ? true : (!Number.isNaN(year) && year > 2000);
+    // Solo requiere título, genre básicamente
+    // No requiere director obligatoriamente
+    if (!datos.Genre) {
+        return false;
+    }
 
-    return cumpleRating && cumpleYear && !Number.isNaN(year);
+    const rating = datos.imdbRating ? parseFloat(datos.imdbRating) : 0;
+    const year = datos.Year ? parseInt(datos.Year, 10) : 0;
+    
+    // Rating debe ser al menos 5 (muy permisivo)
+    // Año debe ser válido (cualquier año válido)
+    return rating >= 5 && year > 0;
 }
 
 function mezclarArray(array) {
@@ -137,6 +143,8 @@ function obtenerPeliculaDeNivel() {
 
 const indicesBloquesProhibidos = new Set([2, 3, 14, 15]);
 
+let intentosPoster = 0;
+
 function establecerPoster(url, titulo) {
     divPortada.innerHTML = "";
     const wrapper = document.createElement("div");
@@ -146,8 +154,17 @@ function establecerPoster(url, titulo) {
     imagen.src = url;
     imagen.alt = titulo || "Portada de película";
     imagen.onerror = () => {
-        console.warn("Poster inválido o no disponible, cargando otra película...");
-        cargarPeliculaActual();
+        console.warn("Poster inválido o no disponible, intentando nuevamente...");
+        intentosPoster++;
+        if (intentosPoster < 3) {
+            cargarPeliculaActual(0);
+        } else {
+            divPortada.textContent = "Error al cargar el poster";
+            divPortada.style.display = "flex";
+            divPortada.style.alignItems = "center";
+            divPortada.style.justifyContent = "center";
+            divPortada.style.color = "#fff";
+        }
     };
 
     const overlay = document.createElement("div");
@@ -485,7 +502,7 @@ function procesarIntentoFallido(adivinanza = "", datosGuess = null) {
             if (peliculaActual < totalPeliculas) {
                 cargarSiguientePelicula();
             } else {
-                window.location.href = `./resultados.html?aciertos=${aciertosTotal}`;
+                window.location.href = `./resultados.html?aciertos=${aciertosTotal}&nivel=${nivelActual}`;
             }
         }, 2000);
         return;
@@ -509,7 +526,7 @@ function procesarOmitir() {
             if (peliculaActual < totalPeliculas) {
                 cargarSiguientePelicula();
             } else {
-                window.location.href = `./resultados.html?aciertos=${aciertosTotal}`;
+                window.location.href = `./resultados.html?aciertos=${aciertosTotal}&nivel=${nivelActual}`;
             }
         }, 2000);
         return;
@@ -595,7 +612,7 @@ function manejarAdivinanza() {
                         if (peliculaActual < totalPeliculas) {
                             cargarSiguientePelicula();
                         } else {
-                            window.location.href = `./resultados.html?aciertos=${aciertosTotal}`;
+                            window.location.href = `./resultados.html?aciertos=${aciertosTotal}&nivel=${nivelActual}`;
                         }
                     }, 2000);
                 } else {
@@ -638,6 +655,7 @@ entradaAdivinar.addEventListener("input", () => {
 entradaAdivinar.addEventListener("blur", () => setTimeout(limpiarSugerencias, 150));
 
 function cargarPeliculaActual(reintentos = 0) {
+    intentosPoster = 0;
     if (reintentos >= 3) {
         console.error("No se pudo cargar una película válida después de varios intentos.");
         divPortada.textContent = "Error al cargar la película";
@@ -677,6 +695,7 @@ function cargarSiguientePelicula() {
     intentoExito = null;
     tituloPelicula = "";
     datosPelicula = {};
+    intentosPoster = 0;
     limpiarDatosPistas();
     actualizarNumeroPelicula();
 
@@ -694,7 +713,7 @@ function cargarSiguientePelicula() {
     limpiarSugerencias();
 
     if (peliculaActual > totalPeliculas) {
-        window.location.href = `./resultados.html?aciertos=${aciertosTotal}`;
+        window.location.href = `./resultados.html?aciertos=${aciertosTotal}&nivel=${nivelActual}`;
         return;
     }
 

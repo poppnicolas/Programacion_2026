@@ -12,46 +12,58 @@
 
 </head>
 
-<body>
+<body class="body-resultados">
     <div class="contenedor-resultados">
         <h1>¡FIN DEL JUEGO!</h1>
         <div class="puntuacion" id="puntuacion">0/5</div>
         <div class="mensaje" id="mensaje"></div>
-        <img id="imagenResultado" src="../img/inicial.svg" alt="Resultado" width="320" height="320">
-        <button onclick="location.href='./juego.html'">JUGAR DE NUEVO</button>
+        <div class="contenedor-gif"></div>
+        <div class="botones-resultados">
+            <div class="btn-group">
+                <button id="btn-jugar-siguiente">SEGUIR JUGANDO</button>
+                <button id="btn-desplegar-niveles">▼</button>
+            </div>
+            <button onclick="location.href='./index.html'">INICIO</button>
+        </div>
     </div>
 
     <script>
         const params = new URLSearchParams(window.location.search);
         const aciertos = parseInt(params.get('aciertos')) || 0;
+        const nivelActual = parseInt(params.get('nivel')) || 1;
+        const siguienteNivel = nivelActual < 5 ? nivelActual + 1 : 1;
 
         document.getElementById('puntuacion').textContent = `${aciertos}/5`;
 
-        // Configurar mensaje e imagen según aciertos
         let mensaje = '';
         let imagen = '';
 
         if (aciertos === 5) {
-            mensaje = '¡PERFECTO! ¡Eres un cinéfilo de verdad! 🎬✨';
-            imagen = '../img/perfecto.svg';
+            mensaje = '¡PERFECTO! ¡Sos un cinéfilo de verdad! 🎬✨';
+            imagen = '../img/gifResultadoBien.gif';
         } else if (aciertos === 3) {
-            mensaje = '¡BIEN HECHO! Has adivinado 3 películas. ¡Buen conocimiento! 🎥';
-            imagen = '../img/bien.svg';
+            mensaje = 'Adivinaste 3 películas. ¡Buen conocimiento! 🎥';
+            imagen = '../img/gifResultadoMaso.gif';
         } else if (aciertos >= 1) {
-            mensaje = `Solo adivinaste ${aciertos}. ¡Sigue practicando! 🍿`;
-            imagen = '../img/inicial.svg';
+            mensaje = `Solo adivinaste ${aciertos}. ¡Seguí intentando! 🍿`;
+            imagen = '../img/gifResultadoMal.gif';
         } else {
-            mensaje = 'Sin aciertos esta vez. ¡Vuelve a intentar! 🎞️';
-            imagen = '../img/inicial.svg';
+            mensaje = 'No acertaste ninguna. ¡Volvé a intentar! 🎞️';
+            imagen = '../img/gifResultadoNing.gif';
         }
 
         document.getElementById('mensaje').textContent = mensaje;
-        const imagenElemento = document.getElementById('imagenResultado');
-        imagenElemento.src = imagen;
+        const imagenElemento = document.querySelector('.contenedor-gif');
+        imagenElemento.innerHTML = `<img src="${imagen}" alt="Resultado">`;
         imagenElemento.style.display = 'block';
-        imagenElemento.onerror = function() {
+        imagenElemento.querySelector('img').onerror = function() {
             this.style.display = 'none';
             this.alt = 'Imagen no disponible';
+        };
+
+        // Configurar el botón de SEGUIR JUGANDO para ir al siguiente nivel
+        document.getElementById('btn-jugar-siguiente').onclick = function() {
+            location.href = `./nivel${siguienteNivel}.html`;
         };
     </script>
 </body>
