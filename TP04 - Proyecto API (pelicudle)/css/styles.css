@@ -1,3 +1,31 @@
+:root {
+    --color-omitir: #7F7F7F;
+    --color-omitir-hover: #6e6e6e;
+    --color-adivinar: #175e91;
+    --color-adivinar-hover: #134f7a;
+    --color-bg: #0f1115;
+    --color-bg-secondary: #151a22;
+    --color-surface: #161c25;
+    --color-surface-2: #1c2431;
+    --color-surface-card: rgba(17, 22, 31, 0.88);
+    --color-surface-hover: #0b0f15;
+    --color-text: #eef2ff;
+    --color-text-muted: rgba(238, 242, 255, 0.72);
+    --color-text-dark: #0f1115;
+    --color-border: rgba(255, 255, 255, 0.08);
+    --color-border-strong: rgba(255, 255, 255, 0.14);
+    --color-white: #ffffff;
+    --color-black: #000000;
+    --color-input: #1b2333;
+    --color-accent: #5b8cff;
+    --color-accent-hover: #426ee0;
+    --color-warning: #f2b830;
+    --color-warning-hover: #e0a100;
+    --color-danger: #ff5a5a;
+    --color-success: #22c55e;
+    --color-shadow: rgba(0, 0, 0, 0.35);
+}
+
 * {
     box-sizing: border-box;
     font-family: "Inter", sans-serif;
@@ -15,16 +43,16 @@ body {
 
 body {
     overflow-x: hidden;
+    background: var(--color-bg);
+    color: var(--color-text);
 }
 
 #inicio {
-
     background-image:
         radial-gradient(ellipse at center,
             rgba(0, 0, 0, 0) 100%,
-            rgba(0, 0, 0, 0.7) 100%),
+            rgba(0, 0, 0, 0.72) 100%),
         url("../img/camara.jpg");
-
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -39,20 +67,51 @@ body {
     margin-top: 13%;
     font-size: 3.5em;
     font-family: 'Playwrite AU VIC Guides', cursive;
-    color: #000000;
+    color: var(--color-text);
 }
 
 .boton-jugar {
     margin-top: 20px;
-    background-color: #ffffff;
+    background: linear-gradient(135deg, var(--color-accent), #7aa2ff);
+    color: var(--color-white);
     width: auto;
-    padding: 10px;
-    border-radius: 5px;
-    border: 0;
+    padding: 10px 16px;
+    border-radius: 8px;
+    border: 1px solid rgba(255,255,255,0.16);
+    box-shadow: 0 8px 20px rgba(91, 140, 255, 0.25);
+}
+
+.boton-jugar-link,
+.btn-lvl-link {
+    text-decoration: none;
+}
+
+.niveles-container {
+    display: flex;
+    justify-content: center;
+    gap: 6px;
+    margin-top: 12px;
+    flex-wrap: wrap;
 }
 
 .btn-lvl {
-    background-color: #fff;
+    width: 30px;
+    height: 30px;
+    border-radius: 8px;
+    border: 1px solid var(--color-border);
+    background: linear-gradient(135deg, var(--color-surface-2), var(--color-input));
+    color: var(--color-white);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    font-weight: 600;
+    padding: 0;
+}
+
+.btn-lvl:hover {
+    background: linear-gradient(135deg, var(--color-surface-hover), var(--color-input));
 }
 
 #main {
@@ -61,7 +120,6 @@ body {
     text-align: center;
     justify-content: center;
 }
-
 
 #portada {
     width: 360px;
@@ -73,8 +131,8 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    background: #111;
-    border: 8px solid #fff;
+    background: var(--color-surface-hover);
+    border: 10px solid var(--color-input);
 }
 
 #portada img {
@@ -104,9 +162,9 @@ body {
 .overlay-bloque {
     width: 100%;
     height: 100%;
-    background: rgba(255, 255, 255, 0.18);
+    background: rgba(255, 255, 255, 0.1);
     backdrop-filter: blur(30px);
-    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.08);
+    box-shadow: inset 0 0 0 1px var(--color-border);
 }
 
 .overlay-bloque.bloque-oculto {
@@ -114,7 +172,6 @@ body {
     backdrop-filter: none;
     box-shadow: none;
 }
-
 
 .juego {
     display: flex;
@@ -147,16 +204,16 @@ body {
     width: 20px;
     height: 20px;
     border-radius: 4px;
-    border: 1px solid rgba(0, 0, 0, 0.15);
-    background: rgba(255, 255, 255, 0.9);
+    border: 1px solid var(--color-border-strong);
+    background: var(--color-surface-2);
 }
 
 .caja-intento.usada {
-    background: #ff4d4d;
+    background: var(--color-danger);
 }
 
 .caja-intento.exito {
-    background: #28a745;
+    background: var(--color-success);
 }
 
 #busqueda {
@@ -178,13 +235,13 @@ body {
     padding: 10px 12px;
     border-radius: 6px;
     border: none;
-    background: #f2b830;
-    color: #000;
+    background-color: #7F7F7F;
+    color: var(--color-text);
     cursor: pointer;
 }
 
 #boton-omitir:hover {
-    background: #e0a100;
+    background: var(--color-omitir-hover);
 }
 
 #entrada-busqueda {
@@ -193,18 +250,27 @@ body {
     width: 100%;
     padding: 10px 12px;
     border-radius: 6px;
-    border: 1px solid rgba(0, 0, 0, 0.12);
+    border: 1px solid var(--color-border);
     font-size: 16px;
-    background: rgba(255, 255, 255, 0.95);
+    background: var(--color-input);
+    color: var(--color-text);
+}
+
+#entrada-busqueda::placeholder {
+    color: var(--color-text-muted);
 }
 
 #boton-adivinar {
     padding: 10px 12px;
     border-radius: 6px;
     border: none;
-    background: #2d89ef;
-    color: #fff;
+    background: var(--color-adivinar);
+    color: var(--color-white);
     cursor: pointer;
+}
+
+#boton-adivinar:hover {
+    background: var(--color-adivinar-hover);
 }
 
 #sugerencias {
@@ -216,36 +282,13 @@ body {
     display: grid;
     gap: 4px;
     max-height: 260px;
-    background: rgba(255, 255, 255, 0.98);
-    border: 1px solid rgba(0, 0, 0, 0.08);
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
     border-radius: 8px;
-    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.06);
+    box-shadow: 0 6px 18px var(--color-shadow);
     overflow-y: auto;
     z-index: 15;
-}
-
-.datos-pistas {
-    width: 100%;
-    max-width: 900px;
-    width: 100%;
-    max-width: 520px;
-    background: rgba(255, 255, 255, 0.95);
-    border: 1px solid rgba(0, 0, 0, 0.08);
-    border-radius: 8px;
-    padding: 16px;
-    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.06);
-    color: #000;
-    margin-top: 10px;
-}
-
-.datos-pistas h3 {
-    margin: 0 0 10px;
-    font-size: 1.1em;
-}
-
-.datos-pistas p {
-    margin: 6px 0;
-    line-height: 1.4;
+    color: var(--color-text);
 }
 
 .item-sugerencia {
@@ -254,7 +297,7 @@ body {
 }
 
 .item-sugerencia:hover {
-    background: #f0f4ff;
+    background: var(--color-surface-hover);
 }
 
 .tabla-intentos {
@@ -262,16 +305,17 @@ body {
     border-collapse: collapse;
     width: 100%;
     max-width: 900px;
-    background: rgba(255, 255, 255, 0.95);
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+    background: var(--color-input);
+    box-shadow: 0 8px 24px var(--color-shadow);
 }
 
 .tabla-intentos th,
 .tabla-intentos td {
     padding: 10px 12px;
     text-align: left;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+    border-bottom: 1px solid var(--color-border);
     transition: background-color 0.2s ease;
+    color: var(--color-text);
 }
 
 .encabezados th {
@@ -289,27 +333,27 @@ body {
     justify-content: center;
     gap: 10px;
     padding: 20px;
-    background: rgba(0, 0, 0, 0.8);
+    background: rgba(10, 12, 18, 0.88);
     height: 600px;
     border-radius: 10px;
 }
 
 .contenedor-resultados h1 {
     font-size: 2.5em;
-    color: #fff;
+    color: var(--color-text);
     text-align: center;
     margin: 0;
 }
 
 .contenedor-resultados .puntuacion {
     font-size: 4em;
-    color: #28a745;
+    color: var(--color-success);
     font-weight: bold;
 }
 
 .contenedor-resultados .mensaje {
     font-size: 1.3em;
-    color: #fff;
+    color: var(--color-text);
     text-align: center;
     max-width: 600px;
 }
@@ -325,8 +369,8 @@ body {
 .contenedor-resultados button {
     padding: 12px 30px;
     font-size: 1.1em;
-    background-color: #5e60ce;
-    color: #fff;
+    background-color: var(--color-accent);
+    color: var(--color-white);
     border: none;
     cursor: pointer;
     border-radius: 8px;
@@ -334,11 +378,11 @@ body {
 }
 
 .contenedor-resultados button:hover {
-    background-color: #4c4fb8;
+    background-color: var(--color-accent-hover);
 }
 
-
-.body-juego, .body-resultados {
+.body-juego,
+.body-resultados, #inicio {
     background: url(../img/fondoPostersNuevo.png);
     background-repeat: no-repeat;
     background-size: cover;
@@ -362,7 +406,7 @@ body {
     max-width: 300px;
     max-height: 300px;
     border-radius: 10px;
-    background: #ffffff;
+    background: var(--color-white);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -378,10 +422,11 @@ body {
 
 #btn-jugar-siguiente {
     cursor: pointer;
-    color: #fff;
+    color: var(--color-white);
     width: auto;
     border-radius: 8px 0 0 8px;
     padding: 15px 20px;
+    background: var(--color-accent);
 }
 
 #btn-desplegar-niveles {
@@ -390,17 +435,20 @@ body {
     align-items: center;
     justify-content: center;
     cursor: pointer;
-    color: #fff;
+    color: var(--color-white);
     width: 10px;
     padding: 15px;
-    border-left: 1px solid rgba(255, 255, 255, 0.2);
+    border-left: 1px solid var(--color-border);
     border-radius: 0 8px 8px 0;
+    background: var(--color-surface-2);
 }
+
 .infoNivel {
     display: flex;
     justify-content: space-between;
-    color: #fff;
+    color: var(--color-text);
 }
+
 .infoNivel h2 {
     margin: 3px;
 }

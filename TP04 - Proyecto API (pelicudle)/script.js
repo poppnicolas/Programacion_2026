@@ -16,7 +16,6 @@ const botonAdivinar = document.getElementById("boton-adivinar");
 const botonOmitir = document.getElementById("boton-omitir");
 const contenedorIntentos = document.getElementById("intentos");
 const contenedorSugerencias = document.getElementById("sugerencias");
-const contenedorDatosPistas = document.getElementById("datos-pistas");
 const tablaIntentos = document.querySelector(".tabla-intentos");
 
 const niveles = {
@@ -40,7 +39,6 @@ function normalizarTexto(texto) {
 }
 
 let intentoActual = 0;
-let tituloPelicula = "";
 let peliculaActualID = null;
 let datosPelicula = {};
 let intentoExito = null;
@@ -115,13 +113,6 @@ function esDatosPeliculaValidos(datos) {
     // Rating debe ser al menos 5 (muy permisivo)
     // Año debe ser válido (cualquier año válido)
     return rating >= 5 && year > 0;
-}
-
-function mezclarArray(array) {
-    for (let i = array.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [array[i], array[j]] = [array[j], array[i]];
-    }
 }
 
 function obtenerPeliculaDeNivel() {
@@ -201,37 +192,8 @@ function mostrarPosterCompleto() {
     }
 }
 
-function mostrarDatosPistas() {
-    if (!contenedorDatosPistas) return;
-    contenedorDatosPistas.innerHTML = "";
-    if (!datosPelicula || !datosPelicula.Title) return;
-
-    const titulo = document.createElement("h3");
-    titulo.textContent = "Datos de la película";
-
-    const lista = document.createElement("div");
-    lista.innerHTML = `
-        <p><strong>Título:</strong> ${datosPelicula.Title}</p>
-        <p><strong>Año:</strong> ${datosPelicula.Year}</p>
-        <p><strong>Género:</strong> ${datosPelicula.Genre}</p>
-        <p><strong>Rating:</strong> ${datosPelicula.imdbRating}</p>
-        <p><strong>Director:</strong> ${datosPelicula.Director}</p>
-        <p><strong>País:</strong> ${datosPelicula.Country}</p>
-    `;
-
-    contenedorDatosPistas.appendChild(titulo);
-    contenedorDatosPistas.appendChild(lista);
-}
-
-function limpiarDatosPistas() {
-    if (contenedorDatosPistas) {
-        contenedorDatosPistas.innerHTML = "";
-    }
-}
-
 function revelarResultado() {
     mostrarPosterCompleto();
-    mostrarDatosPistas();
     botonAdivinar.disabled = true;
     botonOmitir.disabled = true;
     entradaAdivinar.disabled = true;
@@ -257,91 +219,91 @@ function renderizarIntentos() {
     }
 }
 
-function getColorPorAtributo(valorGuess, valorObjetivo) {
-    return valorGuess === valorObjetivo ? "#28a745" : "#ff4d4d";
+function obtenerColorPorAtributo(valorAdivinado, valorObjetivo) {
+    return valorAdivinado === valorObjetivo ? "#28a745" : "#ff4d4d";
 }
 
-function getColorCountry(valorGuess, valorObjetivo) {
-    if (!valorGuess || !valorObjetivo) {
-        return getColorPorAtributo(valorGuess, valorObjetivo);
+function obtenerColorPais(valorAdivinado, valorObjetivo) {
+    if (!valorAdivinado || !valorObjetivo) {
+        return obtenerColorPorAtributo(valorAdivinado, valorObjetivo);
     }
 
-    const normalizeCountry = texto => normalizarTexto(texto)
+    const normalizarPais = texto => normalizarTexto(texto)
         .replace(/\b(de|del|la|el|los|las|of|the|and)\b/g, "")
         .replace(/\s+/g, " ")
         .trim();
 
-    const guessTokens = normalizeCountry(valorGuess).split(",").map(t => t.trim()).filter(Boolean);
-    const objetivoTokens = normalizeCountry(valorObjetivo).split(",").map(t => t.trim()).filter(Boolean);
+    const tokensAdivinados = normalizarPais(valorAdivinado).split(",").map(t => t.trim()).filter(Boolean);
+    const tokensObjetivo = normalizarPais(valorObjetivo).split(",").map(t => t.trim()).filter(Boolean);
 
-    const guessSet = new Set(guessTokens);
-    const objetivoSet = new Set(objetivoTokens);
+    const conjuntoAdivinado = new Set(tokensAdivinados);
+    const conjuntoObjetivo = new Set(tokensObjetivo);
 
-    const allMatch = guessTokens.length === objetivoTokens.length && guessTokens.every(token => objetivoSet.has(token));
-    if (allMatch) {
+    const coincidenciaCompleta = tokensAdivinados.length === tokensObjetivo.length && tokensAdivinados.every(token => conjuntoObjetivo.has(token));
+    if (coincidenciaCompleta) {
         return "#28a745";
     }
 
-    const partialMatch = guessTokens.some(token => objetivoSet.has(token)) || objetivoTokens.some(token => guessSet.has(token));
-    return partialMatch ? "#ffdd57" : "#ff4d4d";
+    const coincidenciaParcial = tokensAdivinados.some(token => conjuntoObjetivo.has(token)) || tokensObjetivo.some(token => conjuntoAdivinado.has(token));
+    return coincidenciaParcial ? "#ffdd57" : "#ff4d4d";
 }
 
-function getColorYear(valorGuess, valorObjetivo) {
-    const guess = parseInt(valorGuess, 10);
+function obtenerColorAnio(valorAdivinado, valorObjetivo) {
+    const adivinado = parseInt(valorAdivinado, 10);
     const objetivo = parseInt(valorObjetivo, 10);
-    if (Number.isFinite(guess) && Number.isFinite(objetivo)) {
-        return guess === objetivo ? "#28a745" : "#ff4d4d";
+    if (Number.isFinite(adivinado) && Number.isFinite(objetivo)) {
+        return adivinado === objetivo ? "#28a745" : "#ff4d4d";
     }
     return "#ff4d4d";
 }
 
-function getYearArrow(valorGuess, valorObjetivo) {
-    const guess = parseInt(valorGuess, 10);
+function obtenerFlechaAnio(valorAdivinado, valorObjetivo) {
+    const adivinado = parseInt(valorAdivinado, 10);
     const objetivo = parseInt(valorObjetivo, 10);
-    if (!Number.isFinite(guess) || !Number.isFinite(objetivo) || guess === objetivo) {
+    if (!Number.isFinite(adivinado) || !Number.isFinite(objetivo) || adivinado === objetivo) {
         return "";
     }
-    return objetivo > guess ? " ▲" : " ▼";
+    return objetivo > adivinado ? " ▲" : " ▼";
 }
 
-function getRatingArrow(valorGuess, valorObjetivo) {
-    const guess = parseFloat(valorGuess);
+function obtenerFlechaRating(valorAdivinado, valorObjetivo) {
+    const adivinado = parseFloat(valorAdivinado);
     const objetivo = parseFloat(valorObjetivo);
-    if (!Number.isFinite(guess) || !Number.isFinite(objetivo) || guess === objetivo) {
+    if (!Number.isFinite(adivinado) || !Number.isFinite(objetivo) || adivinado === objetivo) {
         return "";
     }
-    return objetivo > guess ? " ▲" : " ▼";
+    return objetivo > adivinado ? " ▲" : " ▼";
 }
 
-function getColorRating(valorGuess, valorObjetivo) {
-    const guess = parseFloat(valorGuess);
+function obtenerColorRating(valorAdivinado, valorObjetivo) {
+    const adivinado = parseFloat(valorAdivinado);
     const objetivo = parseFloat(valorObjetivo);
-    if (Number.isFinite(guess) && Number.isFinite(objetivo)) {
-        if (guess === objetivo) return "#28a745";
-        if (Math.abs(guess - objetivo) <= 1.5) return "#ffdd57";
+    if (Number.isFinite(adivinado) && Number.isFinite(objetivo)) {
+        if (adivinado === objetivo) return "#28a745";
+        if (Math.abs(adivinado - objetivo) <= 1.5) return "#ffdd57";
     }
-    return getColorPorAtributo(valorGuess, valorObjetivo);
+    return obtenerColorPorAtributo(valorAdivinado, valorObjetivo);
 }
 
-function getColorGenre(genreGuess, genreTarget) {
-    if (!genreGuess || !genreTarget) {
+function obtenerColorGenero(generoAdivinado, generoObjetivo) {
+    if (!generoAdivinado || !generoObjetivo) {
         return "#ff4d4d";
     }
 
-    const guessGenres = genreGuess.split(",").map(g => g.trim().toLowerCase()).filter(Boolean);
-    const targetGenres = genreTarget.split(",").map(g => g.trim().toLowerCase()).filter(Boolean);
+    const generosAdivinados = generoAdivinado.split(",").map(g => g.trim().toLowerCase()).filter(Boolean);
+    const generosObjetivo = generoObjetivo.split(",").map(g => g.trim().toLowerCase()).filter(Boolean);
 
-    if (guessGenres.length === 0 || targetGenres.length === 0) {
+    if (generosAdivinados.length === 0 || generosObjetivo.length === 0) {
         return "#ff4d4d";
     }
 
-    const hasExactMatch = guessGenres.length === targetGenres.length && guessGenres.every(g => targetGenres.includes(g));
-    if (hasExactMatch) {
+    const coincidenciaExacta = generosAdivinados.length === generosObjetivo.length && generosAdivinados.every(g => generosObjetivo.includes(g));
+    if (coincidenciaExacta) {
         return "#28a745";
     }
 
-    const hasPartialMatch = guessGenres.some(g => targetGenres.includes(g));
-    return hasPartialMatch ? "#ffdd57" : "#ff4d4d";
+    const coincidenciaParcial = generosAdivinados.some(g => generosObjetivo.includes(g));
+    return coincidenciaParcial ? "#ffdd57" : "#ff4d4d";
 }
 
 function agregarFilaIntento(datosGuess, esCorrecto) {
@@ -353,30 +315,30 @@ function agregarFilaIntento(datosGuess, esCorrecto) {
     celdaPeli.style.color = "#fff";
 
     const celdaYear = document.createElement("td");
-    const yearColor = getColorYear(datosGuess.Year, datosPelicula.Year);
-    celdaYear.textContent = `${datosGuess.Year || "-"}${getYearArrow(datosGuess.Year, datosPelicula.Year)}`;
+    const yearColor = obtenerColorAnio(datosGuess.Year, datosPelicula.Year);
+    celdaYear.textContent = `${datosGuess.Year || "-"}${obtenerFlechaAnio(datosGuess.Year, datosPelicula.Year)}`;
     celdaYear.style.backgroundColor = yearColor;
     celdaYear.style.color = yearColor === "#ffdd57" ? "#000" : "#fff";
 
     const celdaGenero = document.createElement("td");
     celdaGenero.textContent = datosGuess.Genre || "-";
-    const colorGenero = getColorGenre(datosGuess.Genre, datosPelicula.Genre);
+    const colorGenero = obtenerColorGenero(datosGuess.Genre, datosPelicula.Genre);
     celdaGenero.style.backgroundColor = colorGenero;
     celdaGenero.style.color = colorGenero === "#ffdd57" ? "#000" : "#fff";
 
     const celdaRating = document.createElement("td");
-    celdaRating.textContent = `${datosGuess.imdbRating || "-"}${getRatingArrow(datosGuess.imdbRating, datosPelicula.imdbRating)}`;
-    celdaRating.style.backgroundColor = getColorRating(datosGuess.imdbRating, datosPelicula.imdbRating);
-    celdaRating.style.color = getColorRating(datosGuess.imdbRating, datosPelicula.imdbRating) === "#ffdd57" ? "#000" : "#fff";
+    celdaRating.textContent = `${datosGuess.imdbRating || "-"}${obtenerFlechaRating(datosGuess.imdbRating, datosPelicula.imdbRating)}`;
+    celdaRating.style.backgroundColor = obtenerColorRating(datosGuess.imdbRating, datosPelicula.imdbRating);
+    celdaRating.style.color = obtenerColorRating(datosGuess.imdbRating, datosPelicula.imdbRating) === "#ffdd57" ? "#000" : "#fff";
 
     const celdaDirector = document.createElement("td");
     celdaDirector.textContent = datosGuess.Director || "-";
-    celdaDirector.style.backgroundColor = getColorPorAtributo(datosGuess.Director, datosPelicula.Director);
+    celdaDirector.style.backgroundColor = obtenerColorPorAtributo(datosGuess.Director, datosPelicula.Director);
     celdaDirector.style.color = "#fff";
 
     const celdaPais = document.createElement("td");
     celdaPais.textContent = datosGuess.Country || "-";
-    const colorPais = getColorCountry(datosGuess.Country, datosPelicula.Country);
+    const colorPais = obtenerColorPais(datosGuess.Country, datosPelicula.Country);
     celdaPais.style.backgroundColor = colorPais;
     celdaPais.style.color = colorPais === "#ffdd57" ? "#000" : "#fff";
 
@@ -668,7 +630,6 @@ function cargarPeliculaActual(reintentos = 0) {
 
     cargarPeliculaAleatoria()
         .then(datosCompletos => {
-            tituloPelicula = datosCompletos.Title;
             peliculaActualID = datosCompletos.id;
             datosPelicula = {
                 Title: datosCompletos.Title,
@@ -693,10 +654,8 @@ function cargarSiguientePelicula() {
     peliculaActual += 1;
     intentoActual = 0;
     intentoExito = null;
-    tituloPelicula = "";
     datosPelicula = {};
     intentosPoster = 0;
-    limpiarDatosPistas();
     actualizarNumeroPelicula();
 
     const filasExistentes = tablaIntentos.querySelectorAll("tr:not(.encabezados)");
