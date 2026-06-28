@@ -19,16 +19,22 @@ const contenedorSugerencias = document.getElementById("sugerencias");
 const tablaIntentos = document.querySelector(".tabla-intentos");
 
 const niveles = {
-    nivel1: [265195, 155, 550, 597, 238],
-    nivel2: [680, 13, 278, 603, 424],
-    nivel3: [1083381, 27205, 207, 557, 9806],
-    nivel4: [157336, 18079, 25376, 4232, 335984],
-    nivel5: [672, 936075, 19404, 9339, 1273221],
+    1: [265195, 155, 550, 597, 238],
+    2: [680, 13, 278, 603, 424],
+    3: [1083381, 27205, 207, 557, 9806],
+    4: [157336, 18079, 25376, 4232, 335984],
+    5: [672, 936075, 687163, 9339, 1273221],
+    6: [265195, 155, 550, 597, 238],
 };
 
 let nivelActual = 1;
 const intentosMaximos = 6;
-const totalPeliculas = 5;
+let totalPeliculas = 5;
+
+function obtenerIDsDelNivel(nivel) {
+    if (!nivel) return [];
+    return niveles[nivel] || niveles[`nivel${nivel}`] || [];
+}
 
 function normalizarTexto(texto) {
     return texto
@@ -51,7 +57,7 @@ function obtenerNivelActualDesdePagina() {
     const bodyNivel = document.body.dataset.nivel;
     const queryNivel = new URLSearchParams(window.location.search).get("nivel");
     const nivel = parseInt(bodyNivel || queryNivel || "1", 10);
-    return Number.isFinite(nivel) && nivel >= 1 && nivel <= 5 ? nivel : 1;
+    return Number.isFinite(nivel) && nivel >= 1 && obtenerIDsDelNivel(nivel).length > 0 ? nivel : 1;
 }
 
 function actualizarNumeroPelicula() {
@@ -116,7 +122,7 @@ function esDatosPeliculaValidos(datos) {
 }
 
 function obtenerPeliculaDeNivel() {
-    const nivelIDs = niveles[`nivel${nivelActual}`] || [];
+    const nivelIDs = obtenerIDsDelNivel(nivelActual);
     const nivelIndex = peliculaActual - 1;
     const tmdbID = nivelIDs[nivelIndex];
 
@@ -680,6 +686,7 @@ function cargarSiguientePelicula() {
 }
 
 nivelActual = obtenerNivelActualDesdePagina();
+totalPeliculas = obtenerIDsDelNivel(nivelActual).length || 5;
 actualizarNumeroPelicula();
 document.title = `Pelicudle - Nivel ${nivelActual}`;
 

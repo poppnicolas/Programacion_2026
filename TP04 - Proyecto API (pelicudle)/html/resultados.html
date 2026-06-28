@@ -19,10 +19,7 @@
         <div class="mensaje" id="mensaje"></div>
         <div class="contenedor-gif"></div>
         <div class="botones-resultados">
-            <div class="btn-group">
-                <button id="btn-jugar-siguiente">SEGUIR JUGANDO</button>
-                <button id="btn-desplegar-niveles">▼</button>
-            </div>
+            <button id="btn-jugar-siguiente">SEGUIR JUGANDO</button>
             <button onclick="location.href='./index.html'">INICIO</button>
         </div>
     </div>
@@ -31,7 +28,7 @@
         const params = new URLSearchParams(window.location.search);
         const aciertos = parseInt(params.get('aciertos')) || 0;
         const nivelActual = parseInt(params.get('nivel')) || 1;
-        const siguienteNivel = nivelActual < 5 ? nivelActual + 1 : 1;
+        const siguienteNivel = nivelActual + 1;
 
         document.getElementById('puntuacion').textContent = `${aciertos}/5`;
 
@@ -63,7 +60,7 @@
 
         // Configurar el botón de SEGUIR JUGANDO para ir al siguiente nivel
         document.getElementById('btn-jugar-siguiente').onclick = function() {
-            location.href = `./nivel${siguienteNivel}.html`;
+            location.href = `./juego.html?nivel=${siguienteNivel}`;
         };
     </script>
 </body>
