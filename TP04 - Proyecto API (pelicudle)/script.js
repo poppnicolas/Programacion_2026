@@ -106,9 +106,6 @@ function esDatosPeliculaValidos(datos) {
     if (!datos || !datos.Title) {
         return false;
     }
-
-    // Solo requiere título, genre básicamente
-    // No requiere director obligatoriamente
     if (!datos.Genre) {
         return false;
     }
@@ -116,8 +113,6 @@ function esDatosPeliculaValidos(datos) {
     const rating = datos.imdbRating ? parseFloat(datos.imdbRating) : 0;
     const year = datos.Year ? parseInt(datos.Year, 10) : 0;
     
-    // Rating debe ser al menos 5 (muy permisivo)
-    // Año debe ser válido (cualquier año válido)
     return rating >= 5 && year > 0;
 }
 
